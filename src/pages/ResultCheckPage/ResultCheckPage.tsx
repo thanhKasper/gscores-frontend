@@ -11,19 +11,15 @@ import {
 import { useState } from "react";
 import useGetStudentScore from "./ResultCheckPage.Hook";
 import { Card, CardContent } from "@/components/ui/card";
+import SubHeadingText from "@/components/Typography/SubHeadingText";
 
 const ResultCheckPage = () => {
+  document.title = "G-Scores | Student Score Checking";
   const [studentId, setStudentId] = useState("");
 
-  const { isLoading, error, data, setError, fetchStudentScore } =
-    useGetStudentScore();
+  const { isLoading, error, data, fetchStudentScore } = useGetStudentScore();
 
   const handleSearch = async () => {
-    if (!studentId.trim()) {
-      setError("Please enter a student ID");
-      return;
-    }
-
     fetchStudentScore(studentId);
   };
 
@@ -34,28 +30,27 @@ const ResultCheckPage = () => {
   };
 
   const getScoreBadgeColor = (score: number | null) => {
-    if (score === null) return "bg-gray-100 text-gray-800";
-    if (score >= 8.5) return "bg-green-100 text-green-800";
-    if (score >= 7.0) return "bg-blue-100 text-blue-800";
-    if (score >= 5.0) return "bg-yellow-100 text-yellow-800";
-    return "bg-red-100 text-red-800";
+    if (score === null) return "bg-gray-200 text-gray-600";
+    else if (score >= 8.5) return "bg-green-100 text-green-800";
+    else if (score >= 7.0) return "bg-blue-100 text-blue-800";
+    else return "bg-yellow-100 text-yellow-800";
   };
 
   const getScoreGrade = (score: number | null) => {
     if (score === null) return "N/A";
-    if (score >= 9.0) return "Excellent";
-    if (score >= 8.0) return "Good";
-    if (score >= 7.0) return "Fair";
-    if (score >= 5.0) return "Pass";
+    else if (score >= 9.0) return "Excellent";
+    else if (score >= 8.0) return "Good";
+    else if (score >= 7.0) return "Fair";
+    else if (score >= 5.0) return "Pass";
     return "Fail";
   };
 
   return (
-    <div>
+    <div className="space-y-8">
       {/* Header */}
-      <div className="mb-8">
+      <div>
         <HeadingText>Student Score Checking</HeadingText>
-        <p className="text-gray-600">Enter student ID to view subject scores</p>
+        <SubHeadingText>Enter student ID to view subject scores</SubHeadingText>
       </div>
 
       {/* Search Section */}
@@ -76,7 +71,7 @@ const ResultCheckPage = () => {
                 onChange={(e) => setStudentId(e.target.value)}
                 onKeyDown={handleKeyPress}
                 placeholder="Enter student ID (e.g., SV001, SV002, SV003)"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
               />
             </div>
             <button

@@ -13,6 +13,7 @@ import { Award, Medal, Trophy } from "lucide-react";
 import useGetAGroupScoreRanking from "./ScoreRanking.Hook";
 
 const ScoreRankingPage = () => {
+  document.title = "G-Scores | Score Ranking";
   const { topScores } = useGetAGroupScoreRanking();
 
   const getRankIcon = (rank: number) => {

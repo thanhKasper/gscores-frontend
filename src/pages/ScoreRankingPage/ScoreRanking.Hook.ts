@@ -21,7 +21,6 @@ const useGetAGroupScoreRanking = () => {
         const response = await axios.get(
           "http://localhost:5136/api/ranking/group-A"
         );
-        console.log("Top Scores Response:", response.data);
         setTopScores(response.data);
       } catch (error) {
         console.error("Failed to fetch top scores:", error);
