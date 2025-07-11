@@ -1,0 +1,42 @@
+import axios from "axios";
+import React, { useEffect } from "react";
+
+const useGetAGroupScoreRanking = () => {
+  const [isLoading, setLoading] = React.useState(true);
+  const [topScores, setTopScores] = React.useState<
+    {
+      studentId: string;
+      mathScore: number;
+      physicsScore: number;
+      chemistryScore: number;
+      sumAGroupScore: number;
+    }[]
+  >([]);
+
+  useEffect(() => {
+    const fetchTopScores = async () => {
+      setLoading(true);
+      try {
+        // Simulate API call
+        const response = await axios.get(
+          "http://localhost:5136/api/ranking/group-A"
+        );
+        console.log("Top Scores Response:", response.data);
+        setTopScores(response.data);
+      } catch (error) {
+        console.error("Failed to fetch top scores:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTopScores();
+  }, []);
+
+  return {
+    isLoading,
+    topScores,
+  };
+};
+
+export default useGetAGroupScoreRanking;
