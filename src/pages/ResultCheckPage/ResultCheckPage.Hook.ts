@@ -41,6 +41,13 @@ const useGetStudentScore = () => {
       }));
       return;
     }
+    else if (studentId.match(/[^0-9]/)) {
+      setState((prevState) => ({
+        ...prevState,
+        error: "Student ID can only contain numbers",
+      }));
+      return;
+    }
 
     // Frontend validation passed, proceed to fetch data
     setState((prevState) => ({
