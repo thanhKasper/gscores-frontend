@@ -20,4 +20,8 @@ yarn install
 yarn dev
 ```
 
+## Preview
+![Score Checking Page](preview/score-checking.png)
+![Score Statistics Page](preview/score-stat.png)
+![Score Ranking Page](preview/score-rank.png)
 
