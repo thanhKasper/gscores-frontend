@@ -2,7 +2,6 @@ import axios, { AxiosError } from "axios";
 import React from "react";
 
 const useGetStudentScore = () => {
-  //   const [studentId, setStudentId] = React.useState("");
   const [state, setState] = React.useState<{
     isLoading: boolean;
     error: string | null;
