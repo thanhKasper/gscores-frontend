@@ -8,7 +8,7 @@ const RootLayout = () => {
     <SidebarProvider>
       <AppSidebar />
       <main className="px-6 w-full">
-        <nav>
+        <nav className="py-4">
           <SidebarTrigger />
         </nav>
         <ContentLayout>
