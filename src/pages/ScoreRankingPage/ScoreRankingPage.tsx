@@ -73,13 +73,15 @@ const ScoreRankingPage = () => {
               </TableRow>
             </TableHeader>
             {isLoading ? (
-              Array.from({ length: 10 }).map((_, index) => (
-                <TableRow>
-                  <TableCell key={index} colSpan={6} className="text-center">
-                    <Skeleton className="h-12 w-full" />
-                  </TableCell>
-                </TableRow>
-              ))
+              <TableBody>
+                {Array.from({ length: 10 }).map((_, index) => (
+                  <TableRow key={index}>
+                    <TableCell key={index} colSpan={6} className="text-center">
+                      <Skeleton className="h-12 w-full" />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
             ) : (
               <TableBody>
                 {topScores.map((student, index) => {
