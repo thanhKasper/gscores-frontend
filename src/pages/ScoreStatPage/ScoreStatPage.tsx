@@ -169,7 +169,7 @@ const ScoreStatisticsPage = () => {
               {isLoading ? (
                 <TableBody>
                   {Array.from({ length: 9 }).map((_, index) => (
-                    <TableRow>
+                    <TableRow key={index}>
                       <TableCell key={index} colSpan={6} className="text-center">
                         <Skeleton className="h-12 w-full" />
                       </TableCell>
