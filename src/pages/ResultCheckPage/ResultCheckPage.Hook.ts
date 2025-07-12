@@ -49,7 +49,9 @@ const useGetStudentScore = () => {
     }));
     try {
       const studentScore = (
-        await axios.get(`http://localhost:5136/api/scores/${studentId.trim()}`)
+        await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/scores/${studentId.trim()}`
+        )
       ).data as {
         studentId: string;
         mathScore: number;

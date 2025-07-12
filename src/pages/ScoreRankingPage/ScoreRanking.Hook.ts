@@ -18,7 +18,7 @@ const useGetAGroupScoreRanking = () => {
       setLoading(true);
       try {
         const response = await axios.get(
-          "http://localhost:5136/api/ranking/group-A"
+          `${import.meta.env.VITE_BACKEND_URL}/ranking/group-A`
         );
         setTopScores(response.data);
       } catch (error) {

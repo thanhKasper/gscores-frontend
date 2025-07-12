@@ -23,27 +23,31 @@ const useScoreStatQuery = () => {
           geographyData,
           civicEducationData,
         ] = await Promise.all([
-          axios.get("http://localhost:5136/api/statistics/math"),
-          axios.get("http://localhost:5136/api/statistics/literature"),
-          axios.get("http://localhost:5136/api/statistics/english"),
-          axios.get("http://localhost:5136/api/statistics/chemistry"),
-          axios.get("http://localhost:5136/api/statistics/physics"),
-          axios.get("http://localhost:5136/api/statistics/biology"),
-          axios.get("http://localhost:5136/api/statistics/history"),
-          axios.get("http://localhost:5136/api/statistics/geography"),
-          axios.get("http://localhost:5136/api/statistics/civicEducation"),
+          axios.get(`${import.meta.env.VITE_BACKEND_URL}/statistics/math`),
+          axios.get(
+            `${import.meta.env.VITE_BACKEND_URL}/statistics/literature`
+          ),
+          axios.get(`${import.meta.env.VITE_BACKEND_URL}/statistics/english`),
+          axios.get(`${import.meta.env.VITE_BACKEND_URL}/statistics/chemistry`),
+          axios.get(`${import.meta.env.VITE_BACKEND_URL}/statistics/physics`),
+          axios.get(`${import.meta.env.VITE_BACKEND_URL}/statistics/biology`),
+          axios.get(`${import.meta.env.VITE_BACKEND_URL}/statistics/history`),
+          axios.get(`${import.meta.env.VITE_BACKEND_URL}/statistics/geography`),
+          axios.get(
+            `${import.meta.env.VITE_BACKEND_URL}/statistics/civicEducation`
+          ),
         ]);
 
         // Assuming each response data is an array of scores
         setScoreStat({
-          "Math": mathData.data,
-          "Literature": literatureData.data,
-          "English": englishData.data,
-          "Chemistry": chemistryData.data,
-          "Physics": physicsData.data,
-          "Biology": biologyData.data,
-          "History": historyData.data,
-          "Geography": geographyData.data,
+          Math: mathData.data,
+          Literature: literatureData.data,
+          English: englishData.data,
+          Chemistry: chemistryData.data,
+          Physics: physicsData.data,
+          Biology: biologyData.data,
+          History: historyData.data,
+          Geography: geographyData.data,
           "Civic Education": civicEducationData.data,
         });
       } catch (err) {
