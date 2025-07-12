@@ -11,10 +11,11 @@ import {
 } from "@/components/ui/table";
 import { Award, Medal, Trophy } from "lucide-react";
 import useGetAGroupScoreRanking from "./ScoreRanking.Hook";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const ScoreRankingPage = () => {
   document.title = "G-Scores | Score Ranking";
-  const { topScores } = useGetAGroupScoreRanking();
+  const { topScores, isLoading } = useGetAGroupScoreRanking();
 
   const getRankIcon = (rank: number) => {
     switch (rank) {
@@ -71,51 +72,61 @@ const ScoreRankingPage = () => {
                 </TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody>
-              {topScores.map((student, index) => {
-                const rank = index + 1;
-                return (
-                  <TableRow
-                    key={student.studentId}
-                    className="hover:bg-gray-50 transition-colors duration-200"
-                  >
-                    <TableCell className="px-6 py-4">
-                      <div className="flex items-center space-x-3">
-                        <div className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 text-sm font-semibold text-gray-700">
-                          {rank}
+            {isLoading ? (
+              Array.from({ length: 10 }).map((_, index) => (
+                <TableRow>
+                  <TableCell key={index} colSpan={6} className="text-center">
+                    <Skeleton className="h-12 w-full" />
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableBody>
+                {topScores.map((student, index) => {
+                  const rank = index + 1;
+                  return (
+                    <TableRow
+                      key={student.studentId}
+                      className="hover:bg-gray-50 transition-colors duration-200"
+                    >
+                      <TableCell className="px-6 py-4">
+                        <div className="flex items-center space-x-3">
+                          <div className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 text-sm font-semibold text-gray-700">
+                            {rank}
+                          </div>
+                          {getRankIcon(rank)}
                         </div>
-                        {getRankIcon(rank)}
-                      </div>
-                    </TableCell>
-                    <TableCell className="px-6 py-4">
-                      <span className="text-sm font-semibold text-gray-900">
-                        {student.studentId}
-                      </span>
-                    </TableCell>
-                    <TableCell className="px-6 py-4 text-center">
-                      <span className="text-sm text-gray-700">
-                        {student.mathScore?.toFixed(1) || "N/A"}
-                      </span>
-                    </TableCell>
-                    <TableCell className="px-6 py-4 text-center">
-                      <span className="text-sm text-gray-700">
-                        {student.physicsScore?.toFixed(1) || "N/A"}
-                      </span>
-                    </TableCell>
-                    <TableCell className="px-6 py-4 text-center">
-                      <span className="text-sm text-gray-700">
-                        {student.chemistryScore?.toFixed(1) || "N/A"}
-                      </span>
-                    </TableCell>
-                    <TableCell className="px-6 py-4 text-center">
-                      <span className="text-sm font-semibold text-gray-900">
-                        {student.sumAGroupScore?.toFixed(1) || "N/A"}
-                      </span>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
+                      </TableCell>
+                      <TableCell className="px-6 py-4">
+                        <span className="text-sm font-semibold text-gray-900">
+                          {student.studentId}
+                        </span>
+                      </TableCell>
+                      <TableCell className="px-6 py-4 text-center">
+                        <span className="text-sm text-gray-700">
+                          {student.mathScore?.toFixed(1) || "N/A"}
+                        </span>
+                      </TableCell>
+                      <TableCell className="px-6 py-4 text-center">
+                        <span className="text-sm text-gray-700">
+                          {student.physicsScore?.toFixed(1) || "N/A"}
+                        </span>
+                      </TableCell>
+                      <TableCell className="px-6 py-4 text-center">
+                        <span className="text-sm text-gray-700">
+                          {student.chemistryScore?.toFixed(1) || "N/A"}
+                        </span>
+                      </TableCell>
+                      <TableCell className="px-6 py-4 text-center">
+                        <span className="text-sm font-semibold text-gray-900">
+                          {student.sumAGroupScore?.toFixed(1) || "N/A"}
+                        </span>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            )}
             <TableFooter>
               <TableRow>
                 <TableCell

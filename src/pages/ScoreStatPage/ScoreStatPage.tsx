@@ -18,11 +18,12 @@ import {
 } from "@/components/ui/table";
 import { Bar, BarChart, CartesianGrid, Tooltip, XAxis, YAxis } from "recharts";
 import useScoreStatQuery from "./ScoreStatPage.Hook";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const ScoreStatisticsPage = () => {
   document.title = "G-Scores | Score Statistics";
 
-  const { scoreStat } = useScoreStatQuery();
+  const { scoreStat, isLoading } = useScoreStatQuery();
   const subjectData = scoreStat;
 
   const levelColors = {
@@ -97,35 +98,39 @@ const ScoreStatisticsPage = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="h-96">
-              <ChartContainer config={chartConfig} className="w-full h-full">
-                <BarChart
-                  data={chartData}
-                  margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-                >
-                  <CartesianGrid strokeDasharray="7 3" stroke="#f3f4f6" />
-                  <XAxis
-                    dataKey="subject"
-                    tick={{ fontSize: 12 }}
-                    angle={-45}
-                    textAnchor="end"
-                    height={80}
-                  />
-                  <YAxis tick={{ fontSize: 12 }} />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: "white",
-                      border: "1px solid #e5e7eb",
-                      borderRadius: "8px",
-                    }}
-                  />
-                  <Bar dataKey="Level 1 (<4)" fill={levelColors.level1} />
-                  <Bar dataKey="Level 2 (4-6)" fill={levelColors.level2} />
-                  <Bar dataKey="Level 3 (6-8)" fill={levelColors.level3} />
-                  <Bar dataKey="Level 4 (≥8)" fill={levelColors.level4} />
-                </BarChart>
-              </ChartContainer>
-            </div>
+            {isLoading ? (
+              <Skeleton className="h-96 w-full" />
+            ) : (
+              <div className="h-96">
+                <ChartContainer config={chartConfig} className="w-full h-full">
+                  <BarChart
+                    data={chartData}
+                    margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                  >
+                    <CartesianGrid strokeDasharray="7 3" stroke="#f3f4f6" />
+                    <XAxis
+                      dataKey="subject"
+                      tick={{ fontSize: 12 }}
+                      angle={-45}
+                      textAnchor="end"
+                      height={80}
+                    />
+                    <YAxis tick={{ fontSize: 12 }} />
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: "white",
+                        border: "1px solid #e5e7eb",
+                        borderRadius: "8px",
+                      }}
+                    />
+                    <Bar dataKey="Level 1 (<4)" fill={levelColors.level1} />
+                    <Bar dataKey="Level 2 (4-6)" fill={levelColors.level2} />
+                    <Bar dataKey="Level 3 (6-8)" fill={levelColors.level3} />
+                    <Bar dataKey="Level 4 (≥8)" fill={levelColors.level4} />
+                  </BarChart>
+                </ChartContainer>
+              </div>
+            )}
           </CardContent>
         </Card>
 
@@ -161,52 +166,66 @@ const ScoreStatisticsPage = () => {
                   <TableHead className={tableHeadClassname}>Total</TableHead>
                 </TableRow>
               </TableHeader>
-              <TableBody>
-                {Object.entries(subjectData).map(([subject, scores]) => {
-                  const total = scores.reduce((sum, score) => sum + score, 0);
-                  return (
-                    <TableRow
-                      key={subject}
-                      className="border-b border-gray-100 hover:bg-gray-50"
-                    >
-                      <TableCell className={`${tableHeadClassname} text-left`}>
-                        {subject}
-                      </TableCell>
-                      <TableCell className="text-center py-3 px-4">
-                        <span
-                          className={`${dataLabelClassname} bg-green-100 text-green-800`}
-                        >
-                          {scores[0]}
-                        </span>
-                      </TableCell>
-                      <TableCell className="text-center py-3 px-4">
-                        <span
-                          className={`${dataLabelClassname} bg-blue-100 text-blue-800`}
-                        >
-                          {scores[1]}
-                        </span>
-                      </TableCell>
-                      <TableCell className="text-center py-3 px-4">
-                        <span
-                          className={`${dataLabelClassname} bg-yellow-100 text-yellow-800`}
-                        >
-                          {scores[2]}
-                        </span>
-                      </TableCell>
-                      <TableCell className="text-center py-3 px-4">
-                        <span
-                          className={`${dataLabelClassname} bg-red-100 text-red-800`}
-                        >
-                          {scores[3]}
-                        </span>
-                      </TableCell>
-                      <TableCell className="text-center py-3 px-4 font-medium text-gray-900">
-                        {total}
+              {isLoading ? (
+                <TableBody>
+                  {Array.from({ length: 9 }).map((_, index) => (
+                    <TableRow>
+                      <TableCell key={index} colSpan={6} className="text-center">
+                        <Skeleton className="h-12 w-full" />
                       </TableCell>
                     </TableRow>
-                  );
-                })}
-              </TableBody>
+                  ))}
+                </TableBody>
+              ) : (
+                <TableBody>
+                  {Object.entries(subjectData).map(([subject, scores]) => {
+                    const total = scores.reduce((sum, score) => sum + score, 0);
+                    return (
+                      <TableRow
+                        key={subject}
+                        className="border-b border-gray-100 hover:bg-gray-50"
+                      >
+                        <TableCell
+                          className={`${tableHeadClassname} text-left`}
+                        >
+                          {subject}
+                        </TableCell>
+                        <TableCell className="text-center py-3 px-4">
+                          <span
+                            className={`${dataLabelClassname} bg-green-100 text-green-800`}
+                          >
+                            {scores[0]}
+                          </span>
+                        </TableCell>
+                        <TableCell className="text-center py-3 px-4">
+                          <span
+                            className={`${dataLabelClassname} bg-blue-100 text-blue-800`}
+                          >
+                            {scores[1]}
+                          </span>
+                        </TableCell>
+                        <TableCell className="text-center py-3 px-4">
+                          <span
+                            className={`${dataLabelClassname} bg-yellow-100 text-yellow-800`}
+                          >
+                            {scores[2]}
+                          </span>
+                        </TableCell>
+                        <TableCell className="text-center py-3 px-4">
+                          <span
+                            className={`${dataLabelClassname} bg-red-100 text-red-800`}
+                          >
+                            {scores[3]}
+                          </span>
+                        </TableCell>
+                        <TableCell className="text-center py-3 px-4 font-medium text-gray-900">
+                          {total}
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              )}
             </Table>
           </CardContent>
         </Card>

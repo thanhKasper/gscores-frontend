@@ -17,7 +17,6 @@ const useGetAGroupScoreRanking = () => {
     const fetchTopScores = async () => {
       setLoading(true);
       try {
-        // Simulate API call
         const response = await axios.get(
           "http://localhost:5136/api/ranking/group-A"
         );
